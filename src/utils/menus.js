@@ -10,6 +10,7 @@ export const initMenu=(router,store)=>{
             let fmtRoutes=formatRoutes(data);
             router.addRoutes(fmtRoutes);
             store.commit('initRoutes',fmtRoutes);
+            console.log(fmtRoutes)
         }
     })
 
@@ -17,7 +18,7 @@ export const initMenu=(router,store)=>{
 
 export const formatRoutes=(routes)=>{
     let fmRoutes=[];
-    routes.forEach(route=>{
+    routes.forEach(router=>{
         let{
             path,
             component,
@@ -27,19 +28,33 @@ export const formatRoutes=(routes)=>{
             children
         }=router;
         if(children && children instanceof Array){
-            children=formatRoutes(children)
+            children=formatRoutes(children);
+            console.log("children"+JSON.stringify(children))
         }
-        let fmRoutes={
+        let fmRouter={
             path:path,
             name:name,
-            meta:meta,
             iconCls:iconCls,
+            meta:meta,
             children:children,
             component(resolve){
-                require(['../views/'+component+'.vue'],resolve)
+                if(component.startsWith("Home")){
+                    require(['../views/'+component+'.vue'],resolve)
+                }else if(component.startsWith("Emp")){
+                    require(['../views/emp/'+component+'.vue'],resolve)
+                }else if(component.startsWith("Per")){
+                    require(['../views/per/'+component+'.vue'],resolve)
+                }else if(component.startsWith("Sal")){
+                    require(['../views/sal/'+component+'.vue'],resolve)
+                }else if(component.startsWith("Sta")){
+                    require(['../views/sta/'+component+'.vue'],resolve)
+                }else if(component.startsWith("Sys")){
+                    require(['../views/sys/'+component+'.vue'],resolve)
+                }
             }
         }
-        fmRoutes.push(fmRoutes)
+        //fmRoutes.push(fmRouter)
+        fmRoutes.push(fmRouter)
     })
     return fmRoutes;
 }
