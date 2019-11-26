@@ -53,7 +53,6 @@ export const formatRoutes=(routes)=>{
                 }
             }
         }
-        //fmRoutes.push(fmRouter)
         fmRoutes.push(fmRouter)
     })
     return fmRoutes;

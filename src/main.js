@@ -26,12 +26,18 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
+//导航守卫
 router.beforeEach((to,from,next)=>{
   if(to.path=='/'){
     next();
   }else{
-    initMenu(router,store);
-    next();
+      if(window.sessionStorage.getItem("user")){
+        initMenu(router,store);
+        next();
+      }else{
+        console.log(to)
+        next('/?redirect='+to.path)
+      }
   }
 })
 
